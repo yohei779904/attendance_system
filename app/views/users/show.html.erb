@@ -1,0 +1,44 @@
+<% provide(:title, "") %>
+
+<div class="row">
+    <div id="attendance_details">
+      <div class="container bg-info">
+        <div class ="page-header">
+          <div class= "employee_name">
+          <div class= "btn btn-success" disabled="disabled">社 員 名：</div> <%= current_user.name %>
+          </div>
+          <!-- 「config/locales」ディレクトリの「ja.yml 40行目参照」-->
+          <div class= "on_the_day">
+            今日は<%= l(Date.today, format: :long) %>
+          </div>
+          <div class= "realtime">
+            <script src="application.js"></script>
+            <p id="RealtimeClockArea2"></p>
+          </div>
+        </div>
+
+        </br>
+        </br>
+        
+          <div class="col-xs-6">
+            <!-- 下記のように(current_user)を指定することで、Railsは現在ログイン中のユーザーIDをリソースに当てはめて判断する。-->
+            <!-- もし、@userで指定すると、トップページなどのインスタンス変数を定義していないページでエラーとなる。-->
+            <%= form_with scope: :attend, url: user_attends_path(current_user), local: true do |f| %>
+              <%= f.submit '出勤', class: "btn btn-primary attend" %> 
+            <% end %>
+          </div>
+
+          <div class="col-xs-6"> 
+            <%= form_with scope: :attend, url: user_attends_path(current_user), local: true do |f| %>
+              <%= f.submit '退勤', class: "btn btn-default attend" %>   
+            <% end %>
+          </div>
+
+          <div class="text-right">
+            <%= link_to 'データ管理', user_attends_path(current_user), class: "btn btn-default btn-lg active" %>
+            <%= link_to '終了', logout_path, method: :delete, class: "btn btn-default btn-lg active" %>
+          </div>
+
+      </div>
+    </div> 
+</div>
